@@ -7,5 +7,5 @@ test: main.cpp thread_pool.hpp
 	g++ -std=c++11 main.cpp -o test
 
 
-clean: *.o
+clean:
 	rm -rf *.o
