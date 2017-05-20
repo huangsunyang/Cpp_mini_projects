@@ -1,5 +1,5 @@
 # Thread Pool using C++
-A small project following [shiyanlou]("https://www.shiyanlou.com/courses/565") tutorial.
+A small project following [shiyanlou](https://www.shiyanlou.com/courses/565) tutorial.
 
 ## Getting Started
 
