@@ -8,4 +8,4 @@ test: main.cpp thread_pool.hpp
 
 
 clean:
-	rm -rf *.o
+	rm -rf test *.o
