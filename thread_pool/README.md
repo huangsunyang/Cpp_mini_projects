@@ -42,7 +42,7 @@ ThreadPool(size_t threads);
 
 The construct function only receive one argument, that is, the number of 'containers' in the thread pool. If you know about thread before, you may think that a thread can run only one function. Then how can we use the same thread for more than one task? Well, if you look closely into the image above, you may find a little difference between the circle in the `task queue` and 'thread pool'. There is a ring 'wrapping' the task.
 
-The ring means a wapper function. And the ring is what a thread is really running. The ring is the function that is `emplace_back()` into a thread pool. In the ring there is an eternal loop, in which it detects if there issome task in the task queue and run it if there is any. If there is no task, it will wait for a signal.
+The ring means a wapper function. And the ring is what a thread is really running. The ring is the function that is `emplace_back()` into a thread pool. In the ring there is an eternal loop, in which it detects if there is some task in the task queue and run it if there is any. If there is no task, it will wait for a signal.
 
 
 ### Destruct function
@@ -62,4 +62,4 @@ I omit the lock in the code. In fact, the `enqueue` and the running of the task 
 
 ## Author's comment
 
-I have to admit that I myself is a beginner and maybe sth. is wrong in the article above. Welcome to contact me if you have some question or advice. The tutorial is free to use and I recommend you to use 实验楼 since all the project in this directory is from that website.
+I have to admit that I myself is a beginner and maybe sth. is wrong in the article above. Welcome to contact me(email:huangsunyang@126.com) if you have some question or advice. The tutorial is free to use and I recommend you to use 实验楼 since many of the project in this directory is from that website.
