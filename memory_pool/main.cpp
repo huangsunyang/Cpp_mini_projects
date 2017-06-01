@@ -2,58 +2,67 @@
 #include <cassert>
 #include <ctime>
 #include <vector>
-
-//#include "MemoryPool.hpp"
+#include <stack>
+#include "MemoryPool.hpp"
 #include "StackAlloc.hpp"
 
 #define ELEMS 1000000
 #define REPS 100
 
-int main() {
-    clock_t start, now;
-    double time_used;
 
-    //using stl default allocator
-    StackAlloc<int, std::allocator<int>> stackDefault;
+template<typename T>
+double calc_time() {
+    clock_t start;
+
+    StackAlloc<int, T> stack;
     start = clock();
 
+    // frequently push and pop elements on the stack
     for (int j = 0; j < REPS; j++) {
-        assert(stackDefault.empty());
+        assert(stack.empty());
+
         for (int i = 0; i < ELEMS; i++) {
-            stackDefault.push(i);
+            stack.push(i);
         }
         for (int i = 0; i < ELEMS; i++) {
-            stackDefault.pop();
+            stack.pop();
         }
     }
 
-    now = clock();
-    time_used = double(now - start) / CLOCKS_PER_SEC;
+    clock_t now = clock();
+    return double(now - start) / CLOCKS_PER_SEC;
+}
 
+
+int main() {
+    double time_used;
+    clock_t start;
+
+    // use default allocator
+    time_used = calc_time<std::allocator<int>>();
     std::cout << "Default Allocator Time: ";
+    std::cout << time_used << '\n' << std::endl; 
+
+    // use customized memory pool
+    time_used = calc_time<MemoryPool<int>>();
+    std::cout << "Using Memory Pool Time: ";
     std::cout << time_used << '\n' << std::endl;
 
-    //using custom memory pool
-   // StackAlloc<int, MemoryPool<int>> stackPool;
-   // start = clock();
+    // use vector
+    start = clock();
+    std::vector<int> vec;
+    for (int j = 0; j < REPS; j++) {
+        assert(vec.empty());
 
-   // for (int j = 0; j < REPS; j++) {
-   //     assert(stackPool.empty());
-   //     for (int i = 0; i < ELEMS; i++) {
-   //         stackPool.push(i);
-   //     }
-   //     for (int i = 0; i < ELEMS; i++) {
-   //         stackPool.pop();
-   //     }
-   // }
-
-   // now = clock();
-   // time_used = double(now - start) / CLOCKS_PER_SEC;
-
-   // std::cout << "Memory Pool Allocator Time: ";
-   // std::cout << time_used << '\n' << std::endl;
-
-    return 0;
+        for (int i = 0; i < ELEMS; i++) {
+            vec.push_back(i);
+        }
+        for (int i = 0; i < ELEMS; i++) {
+            vec.pop_back();
+        }
+    }
+    std::cout << "Using vector Time: ";
+    std::cout << double(clock() - start) / CLOCKS_PER_SEC << std::endl;
 }
 
 
